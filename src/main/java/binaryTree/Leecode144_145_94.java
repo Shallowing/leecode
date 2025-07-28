@@ -5,7 +5,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Leecode144 extends BinaryTreeUtils{
+public class Leecode144_145_94 extends BinaryTreeUtils{
     /**
      * 前序遍历
      * @param root

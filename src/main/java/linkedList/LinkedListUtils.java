@@ -1,6 +1,6 @@
 package linkedList;
 
-public class Utils {
+public class LinkedListUtils {
     static class ListNode{
         int val;
         ListNode next;

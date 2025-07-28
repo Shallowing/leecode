@@ -1,6 +1,6 @@
 package linkedList;
 
-public class Leecode extends LinkedListUtils{
+public class Leecode160 extends LinkedListUtils{
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
         ListNode A = headA, B = headB;
         // 有交点时，A=B=焦点；无交点时，A=B=NULL
