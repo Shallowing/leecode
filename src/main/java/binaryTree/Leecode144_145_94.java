@@ -3,11 +3,13 @@ package binaryTree;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Stack;
 
 public class Leecode144_145_94 extends BinaryTreeUtils{
     /**
-     * 前序遍历
+     * 前序遍历 递归法
      * @param root
      * @return
      */
@@ -25,7 +27,35 @@ public class Leecode144_145_94 extends BinaryTreeUtils{
     }
 
     /**
-     * 后序遍历
+     * 前序遍历，迭代法
+     * @param root
+     * @return
+     */
+    public List<Integer> preorderTraversal1(TreeNode root) {
+        List<Integer> result = new LinkedList<>();
+        Stack<TreeNode> st = new Stack<>();
+        if (root != null) st.push(root);
+        while (!st.empty()) {
+            TreeNode node = st.peek();
+            if (node != null) {
+                st.pop(); // 将该节点弹出，避免重复操作，下面再将右左中节点添加到栈中（前序遍历-中左右，入栈顺序右左中）
+                if (node.right!=null) st.push(node.right);  // 添加右节点（空节点不入栈）
+                if (node.left!=null) st.push(node.left);    // 添加左节点（空节点不入栈）
+                st.push(node);                          // 添加中节点
+                st.push(null); // 中节点访问过，但是还没有处理，加入空节点做为标记。
+            } else { // 只有遇到空节点的时候，才将下一个节点放进结果集
+                st.pop();           // 将空节点弹出
+                node = st.peek();    // 重新取出栈中元素
+                st.pop();
+                result.add(node.val); // 加入到结果集
+            }
+        }
+        return result;
+    }
+
+
+    /**
+     * 后序遍历 递归法
      * @param root
      * @return
      */
@@ -42,7 +72,35 @@ public class Leecode144_145_94 extends BinaryTreeUtils{
     }
 
     /**
-     * 中序遍历
+     * 后序遍历 迭代法
+     * @param root
+     * @return
+     */
+    public List<Integer> postorderTraversal1(TreeNode root) {
+        List<Integer> result = new LinkedList<>();
+        Stack<TreeNode> st = new Stack<>();
+        if (root != null) st.push(root);
+        while (!st.empty()) {
+            TreeNode node = st.peek();
+            if (node != null) {
+                st.pop(); // 将该节点弹出，避免重复操作，下面再将中右左节点添加到栈中（后序遍历-左右中，入栈顺序中右左）
+                st.push(node);                          // 添加中节点
+                st.push(null); // 中节点访问过，但是还没有处理，加入空节点做为标记。
+                if (node.right!=null) st.push(node.right);  // 添加右节点（空节点不入栈）
+                if (node.left!=null) st.push(node.left);    // 添加左节点（空节点不入栈）
+
+            } else { // 只有遇到空节点的时候，才将下一个节点放进结果集
+                st.pop();           // 将空节点弹出
+                node = st.peek();    // 重新取出栈中元素
+                st.pop();
+                result.add(node.val); // 加入到结果集
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 中序遍历 递归法
      * @param root
      * @return
      */
@@ -58,12 +116,40 @@ public class Leecode144_145_94 extends BinaryTreeUtils{
         inorder(root.right,res);
     }
 
+    /**
+     * 中序遍历 迭代法
+     * @param root
+     * @return
+     */
+    public List<Integer> inorderTraversal1(TreeNode root) {
+        List<Integer> result = new LinkedList<>();
+        Stack<TreeNode> st = new Stack<>();
+        if (root != null) st.push(root);
+        while (!st.empty()) {
+            TreeNode node = st.peek();
+            if (node != null) {
+                st.pop(); // 将该节点弹出，避免重复操作，下面再将右中左节点添加到栈中（中序遍历-左中右，入栈顺序右中左）
+                if (node.right!=null) st.push(node.right);  // 添加右节点（空节点不入栈）
+                st.push(node);                          // 添加中节点
+                st.push(null); // 中节点访问过，但是还没有处理，加入空节点做为标记。
+                if (node.left!=null) st.push(node.left);    // 添加左节点（空节点不入栈）
+            } else { // 只有遇到空节点的时候，才将下一个节点放进结果集
+                st.pop();           // 将空节点弹出
+                node = st.peek();    // 重新取出栈中元素
+                st.pop();
+                result.add(node.val); // 加入到结果集
+            }
+        }
+        return result;
+    }
+
 
     @Test
     public void test(){
-        Integer[] values = {1,null,2,3};
+        Integer[] values = {1,2,3,4,5,null,8,null,null,6,7,9};
         TreeNode treeNode = buildTree(values);
-        List<Integer> integers = preorderTraversal(treeNode);
+        System.out.println(treeNode);
+        List<Integer> integers = inorderTraversal1(treeNode);
         System.out.println(integers);
     }
 
